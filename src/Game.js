@@ -65,7 +65,7 @@ export class Game
             }
 
             this.reset()
-            this.game.animate(this.context)
+            this.game.animate(this.canvas)
             this.renderDebug()
 
             this.frameCount++
