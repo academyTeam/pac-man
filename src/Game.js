@@ -34,6 +34,7 @@ export class Game
                     this.state.stop = true
                     break
                 case ' ':
+                    this.game.debug = true
                     this.state.debug = true
             }
         });
@@ -44,6 +45,7 @@ export class Game
                     this.state.stop = false
                     break
                 case ' ':
+                    this.game.debug = false
                     this.state.debug = false
             }
         });
@@ -89,6 +91,8 @@ export class Game
         if (!this.state.debug) {
             return
         }
+
+        this.game.animateDebug(this.canvas)
 
         this.context.fillStyle = '#FFFFFF'
         this.context.font = "bold 20px serif"
