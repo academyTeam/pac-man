@@ -193,6 +193,10 @@ export class Pacman
                 this.top + (this.mazeHeight * Wall.size) + (4 * Wall.size)
             )
         }
+
+        context.fillStyle = '#FFFFFF'
+        context.font = "10px serif"
+        context.fillText(this.mazeWidth + 'x' + this.mazeHeight, this.left - (2 * Wall.size), this.top - (1 * Wall.size))
     }
 
     strokeLine(context, strokeColor, startX, startY, endX, endY) {
