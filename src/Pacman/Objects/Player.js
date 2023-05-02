@@ -29,7 +29,7 @@ export class Player {
 
         this.registerKeys()
 
-
+       // this.drawMrPacman()
     }
 
     draw (startPositionX, startPositionY) {
@@ -47,12 +47,12 @@ export class Player {
         this.position.y += this.velocity.y
 
         context.drawImage(this.myImage, this.shift, 0, this.frameWidth, this.frameHeight,
-            this.position.x, this.position.y, this.frameWidth, this.frameHeight);
+           this.position.x, this.position.y, this.frameWidth, this.frameHeight);
 
         this.frameDelay++
 
         if (this.frameDelay >= this.game.maxFps / (this.totalFrames * 4)) {
-            this.shift += this.frameWidth + 1
+            this.shift += this.frameWidth + 0
 
             this.currentFrame++
 
@@ -65,37 +65,74 @@ export class Player {
         }
     }
 
+    drawMrsPacman() {
+        shift = 0;
+        frameWidth = 16;
+        frameHeight = 16;
+        startFrame = 0;
+        totalFrames = 5;
+        typeFrame = 0;
+    }
+
+
+    drawMrPacman() {
+        this.shift = 0;
+        frameWidth = 16;
+        frameHeight = 16;
+        startFrame = 0;
+        totalFrames = 5;
+        typeFrame = 16;
+    }
+
+    drawMrsPacmanUp() {
+         shift = 0;
+         frameWidth = 16;
+         frameHeight = 16;
+         startFrame = 6;
+         totalFrames = 5;
+         typeFrame = 0;
+    }
 
     registerKeys() {
         addEventListener('keydown', ({key}) => {
             switch (key) {
                 case 'w':
+                case 'ArrowUp':
                     this.velocity.y = -this.speed
                     break
                 case 'a':
+                case 'ArrowLeft':
                     this.velocity.x = -this.speed
                     break
                 case 's':
+                case 'ArrowDown':
                     this.velocity.y = this.speed
                     break
                 case 'd':
+                case 'ArrowRight':
                     this.velocity.x = this.speed
                     break
             }
         });
+
+
         addEventListener('keyup', ({key}) => {
             switch (key) {
                 case 'w':
+                case 'ArrowUp':
                     this.velocity.y = 0
                     break
                 case 'a':
+                case 'ArrowLeft':
                     this.velocity.x = 0
                     break
                 case 's':
+                case 'ArrowDown':
                     this.velocity.y = 0
                     break
                 case 'd':
-                    this.velocity.y = 0
+                case 'ArrowRight':
+                    this.velocity.x = 0
                     break
             }
         });
