@@ -5,7 +5,11 @@ export class Game
     constructor(canvas, fps = 60) {
         this.canvas = canvas
         this.context = canvas.getContext('2d')
-        this.game = new Pacman()
+
+
+        this.frameCount = 0;
+        this.framesLast = 0;
+
 
         this.state = {
             stop: false,
@@ -21,11 +25,12 @@ export class Game
             then: Date.now(),
         }
 
-        this.frameCount = 0;
-        this.framesLast = 0;
 
         this.registerKeys()
+        this.game = new Pacman(this)
     }
+
+
 
     registerKeys() {
         addEventListener('keydown', ({key}) => {

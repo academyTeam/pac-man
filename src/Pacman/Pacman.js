@@ -1,4 +1,5 @@
-import {Wall} from "./Wall.js";
+import {Wall} from "./Objects/Wall.js";
+import {Player} from "./Objects/Player.js";
 
 export class Pacman
 {
@@ -37,7 +38,8 @@ export class Pacman
         ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
     ];
 
-    constructor() {
+    constructor(game) {
+        this.game = game
         this.mazeHeight = this.playground.length
         this.mazeWidth = 0
 
@@ -46,9 +48,13 @@ export class Pacman
                 this.mazeWidth = row.length
             }
         })
+
+        this.player = new Player(game)
     }
 
-    animate(canvas) {
+    animate() {
+
+        let canvas = this.game.canvas
 
         let context = canvas.getContext('2d')
 
@@ -64,16 +70,18 @@ export class Pacman
             row.forEach((box, index) => {
                 if (box === '1') {
 
-                    let wall = new Wall({
+                    let wall = new Wall(this.game, {
                         x: index * Wall.size,
                         y: line * Wall.size,
                         left: this.left,
                         top: this.top
                     })
-                    wall.draw(context,"rgba(51, 51, 204, 0.7)")
+                    wall.draw("rgba(51, 51, 204, 0.7)")
                 }
             })
         })
+
+        this.player.draw(this.left, this.top)
     }
 
     mazeBackground(canvas) {

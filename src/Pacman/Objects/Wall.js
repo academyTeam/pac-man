@@ -2,11 +2,14 @@ export class Wall
 {
     static size = 20
 
-    constructor(position = {x: 0, y:0, left: 0, top: 0}) {
+    constructor(game, position = {x: 0, y:0, left: 0, top: 0}) {
+        this.game = game
         this.position = position
     }
 
-    draw(context, color) {
+    draw(color) {
+
+        let context = this.game.context
 
         let positionX = this.position.left + this.position.x
         let positionY = this.position.top + this.position.y
