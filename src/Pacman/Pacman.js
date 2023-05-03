@@ -88,35 +88,75 @@ export class Pacman
 
     checkWallComponment(wall, line, index, row) {
 
-
-
-
-        const leftToRightCorner = "yellow";
-
-
         //it is always the sequence of "Above, Under, Left, Right"
         var stringBuild = this.checkAbove(line, index)
         stringBuild += this.checkUnder(line, index)
-        stringBuild += this.checkLeft(index)
-        stringBuild += this.checkRight(index, row)
+        stringBuild += this.checkLeft(line, index)
+        stringBuild += this.checkRight(line, index, row)
 
-        wall.draw("grey")
-
+        // console.log(stringBuild)
+        // wall.draw() v= void, f= free, w = wall
         switch(stringBuild) {
             case "vwvw":
-                wall.draw(Wall.OUTER_CORNER_LEFT, Wall.OUTER_TOP, Wall.OUTER_LEFT, Wall.OUTER_BLANK)
+                wall.draw(Wall.OUTER_CORNER_LEFT_TOP, Wall.OUTER_TOP_PLAIN, Wall.OUTER_LEFT_PLAIN, Wall.BLANK)
                 break
             case "vfww":
-                wall.draw()
+                wall.draw(Wall.OUTER_TOP_PLAIN, Wall.OUTER_TOP_PLAIN, Wall.BLANK, Wall.BLANK)
+                break
+            case "vwww":
+                wall.draw(Wall.OUTER_TOP_PLAIN, Wall.OUTER_CORNER_DOWN, Wall.BLANK, Wall.INNER_DOWN_LEFT)
+                break
+            case "vwwv":
+                wall.draw(Wall.OUTER_TOP_PLAIN, Wall.OUTER_CORNER_RIGHT_TOP, Wall.BLANK, Wall.OUTER_RIGHT_PLAIN)
+                break
+            case "wwfv":
+                wall.draw(Wall.BLANK, Wall.OUTER_RIGHT_PLAIN, Wall.BLANK, Wall.OUTER_RIGHT_PLAIN)
+                break
+            case "wwvf":
+                wall.draw(Wall.OUTER_LEFT_PLAIN, Wall.BLANK, Wall.OUTER_LEFT_PLAIN, Wall.BLANK)
+                break
+            case "wwfw":
+                wall.draw(Wall.BLANK, Wall.INNER_DOWN_LEFT, Wall.BLANK, Wall.INNER_DOWN_LEFT)
+                break
+            case "wwwf":
+                wall.draw(Wall.INNER_DOWN_RIGHT, Wall.BLANK, Wall.INNER_DOWN_RIGHT, Wall.BLANK)
+                break
+            case "wwww":
+                wall.draw(Wall.BLANK, Wall.BLANK, Wall.BLANK, Wall.BLANK)
+                break
+            case "fwww":
+                wall.draw(Wall.BLANK, Wall.BLANK, Wall.INNER_TOP_PLAIN, Wall.INNER_TOP_PLAIN)
+                break
+            case "wfww":
+                wall.draw(Wall.INNER_TOP_PLAIN, Wall.INNER_TOP_PLAIN, Wall.BLANK, Wall.BLANK)
+                break
+            case "fwfw":
+                wall.draw(Wall.BLANK, Wall.BLANK, Wall.BLANK, Wall.INNER_CORNER_RIGHT_TOP)
+                break
+            case "wffw":
+                wall.draw(Wall.BLANK, Wall.INNER_CORNER_RIGHT_DOWN, Wall.BLANK, Wall.BLANK)
+                break
+            case "fwwf":
+                wall.draw(Wall.BLANK, Wall.BLANK, Wall.INNER_CORNER_LEFT_TOP, Wall.BLANK)
+                break
+            case "wfwf":
+                wall.draw(Wall.INNER_CORNER_LEFT_DOWN, Wall.BLANK, Wall.BLANK, Wall.BLANK)
+                break
+            case "fvww":
+                wall.draw(Wall.BLANK, Wall.BLANK, Wall.OUTER_DOWN_PLAIN, Wall.OUTER_DOWN_PLAIN)
+                break
+            case "wvvw":
+                wall.draw(Wall.OUTER_LEFT_PLAIN, Wall.BLANK, Wall.OUTER_CORNER_RIGHT_DOWN, Wall.OUTER_DOWN_PLAIN)
+                break
+            case "wvwv":
+                wall.draw(Wall.BLANK, Wall.OUTER_RIGHT_PLAIN, Wall.OUTER_DOWN_PLAIN, Wall.OUTER_CORNER_LEFT_DOWN)
                 break
             case "f":
-                wall.draw("green")
+                wall.draw()
                 break
             default:
-                wall.draw("red")
+                wall.draw(Wall.OUTER_CORNER_LEFT_TOP, Wall.OUTER_TOP_PLAIN, Wall.OUTER_TOP_PLAIN, Wall.OUTER_CORNER_LEFT_TOP)
         }
-
-
 
     }
 
@@ -143,24 +183,24 @@ export class Pacman
         return "f"
     }
 
-    checkLeft(index) {
+    checkLeft(line, index) {
         var getIndexLeft = index - 1
 
         if(getIndexLeft < 0) {
             return "v"
-        }else if(getIndexLeft == "1") {
+        }else if(this.playground[line][getIndexLeft] == "1") {
             return "w"
         }
         return "f"
 
     }
 
-    checkRight(index, row) {
+    checkRight(line, index, row) {
         var getIndexRight = index + 1
 
         if(getIndexRight >= row.length) {
             return "v"
-        }else if(getIndexRight == "1") {
+        }else if(this.playground[line][getIndexRight] == "1") {
             return "w"
         }
         return "f"
