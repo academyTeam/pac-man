@@ -77,12 +77,93 @@ export class Pacman
                         left: this.left,
                         top: this.top
                     })
-                    wall.draw("rgba(51, 51, 204, 0.7)")
+
+                    this.checkWallComponment(wall, line, index, row)
                 }
             })
         })
 
         this.player.draw(this.left, this.top)
+    }
+
+    checkWallComponment(wall, line, index, row) {
+
+
+
+
+        const leftToRightCorner = "yellow";
+
+
+        //it is always the sequence of "Above, Under, Left, Right"
+        var stringBuild = this.checkAbove(line, index)
+        stringBuild += this.checkUnder(line, index)
+        stringBuild += this.checkLeft(index)
+        stringBuild += this.checkRight(index, row)
+
+        wall.draw("grey")
+
+        switch(stringBuild) {
+            case "vwvw":
+                wall.draw(Wall.OUTER_CORNER_LEFT, Wall.OUTER_TOP, Wall.OUTER_LEFT, Wall.OUTER_BLANK)
+                break
+            case "vfww":
+                wall.draw()
+                break
+            case "f":
+                wall.draw("green")
+                break
+            default:
+                wall.draw("red")
+        }
+
+
+
+    }
+
+    checkAbove(line, index) {
+        var getLineAbove = line - 1
+
+        if(getLineAbove < 0) {
+            return "v"
+        }else if(this.playground[getLineAbove][index] == "1") {
+            return "w"
+        }
+        return "f"
+
+    }
+
+    checkUnder(line, index) {
+        var getLineUnder = line + 1
+
+        if(getLineUnder >= this.mazeHeight) {
+            return "v"
+        }else if(this.playground[getLineUnder][index] == "1") {
+            return "w"
+        }
+        return "f"
+    }
+
+    checkLeft(index) {
+        var getIndexLeft = index - 1
+
+        if(getIndexLeft < 0) {
+            return "v"
+        }else if(getIndexLeft == "1") {
+            return "w"
+        }
+        return "f"
+
+    }
+
+    checkRight(index, row) {
+        var getIndexRight = index + 1
+
+        if(getIndexRight >= row.length) {
+            return "v"
+        }else if(getIndexRight == "1") {
+            return "w"
+        }
+        return "f"
     }
 
     mazeBackground(canvas) {
