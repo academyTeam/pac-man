@@ -9,6 +9,10 @@ export class Player {
     frameDelay = 0;
     spritePerFrames = 0
     speed = 6
+    playerWidth = 32
+    playerHeight = 32
+    canvas = document.getElementById('player')
+    context = this.canvas.getContext("2d")
 
 
     position = {
@@ -33,6 +37,8 @@ export class Player {
     }
 
     draw (startPositionX, startPositionY) {
+        this.canvas.height = innerHeight
+        this.canvas.width = innerWidth
 
         if (this.position.x === 0) {
             this.position.x = startPositionX
@@ -41,27 +47,38 @@ export class Player {
             this.position.y = startPositionY
         }
 
-        let context = this.game.context
-
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
 
-        context.drawImage(this.myImage, this.shift, 0, this.frameWidth, this.frameHeight,
-           this.position.x, this.position.y, this.frameWidth, this.frameHeight);
+        this.context.imageSmoothingEnabled = false;
+
+        this.context.drawImage(this.myImage, this.shift, 0, this.frameWidth, this.frameHeight,
+           this.position.x, this.position.y, this.playerWidth, this.playerHeight);
+
+        const imageData = this.context.getImageData(0, 0, this.game.canvas.width, this.game.canvas.height);
+        const data = imageData.data;
+
+        for (let i = 0; i < data.length; i += 4) {
+            // if the pixel matches our transparent color, set alpha to 0
+            if(data[i] === 128 && data[i + 1] === 0 && data[i + 2] === 128) {
+                data[i+3] = 0;
+            }
+        }
+        this.context.putImageData(imageData, 0, 0);
 
         this.frameDelay++
-
         if (this.frameDelay >= this.game.maxFps / (this.totalFrames * 4)) {
+
             this.shift += this.frameWidth + 0
 
             this.currentFrame++
-
             if (this.currentFrame >= this.totalFrames) {
                 this.currentFrame = 0
                 this.shift = this.startFrame
-            }
 
+            }
             this.frameDelay = 0
+
         }
     }
 
