@@ -1,3 +1,5 @@
+import {Pacman} from "../Pacman.js";
+
 export class Player {
 
     shift = 0;
@@ -35,16 +37,27 @@ export class Player {
     draw (startPositionX, startPositionY) {
 
         if (this.position.x === 0) {
-            this.position.x = startPositionX
+            this.position.x = startPositionX+12
         }
         if (this.position.y === 0) {
-            this.position.y = startPositionY
+            this.position.y = startPositionY+12
         }
 
         let context = this.game.context
 
-        this.position.x += this.velocity.x
-        this.position.y += this.velocity.y
+        let potentialX = this.position.x + this.velocity.x
+        let potentialY = this.position.y + this.velocity.y
+
+        if (this.isCollisionX(potentialX)) {
+            potentialX = this.position.x
+        }
+
+        if (this.isCollisionX(potentialX)) {
+            potentialY = this.position.y
+        }
+
+        this.position.x = potentialX
+        this.position.y = potentialY
 
         context.drawImage(this.myImage, this.shift, 0, this.frameWidth, this.frameHeight,
            this.position.x, this.position.y, this.frameWidth, this.frameHeight);
@@ -136,5 +149,32 @@ export class Player {
                     break
             }
         });
+    }
+
+    isCollisionX(potentialX) {
+
+        // // TODO check right
+        // Pacman.playground.forEach(line => {
+        //     line.forEach(field => {
+        //         // todo: find right box
+        //         // todo: get left border (postion of box + wall.size / 2)
+        //         if (potentialX > positionOfBoxBorder) {
+        //             return true
+        //         }
+        //     })
+        // });
+
+        // Pacman.playground.forEach(line => {
+        //     line.forEach(field => {
+        //         // todo: find left box
+        //         // todo: get right border (postion of box + wall.size / 2)
+        //         if (potentialX > positionOfBoxBorder) {
+        //             return true
+        //         }
+        //     })
+        // });
+
+
+        return false;
     }
 }

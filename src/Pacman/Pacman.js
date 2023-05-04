@@ -5,7 +5,7 @@ export class Pacman
 {
     debug = false
 
-    playground = [
+    static playground = [
             ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
             ["1", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "1", "1", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "1"],
             ["1", ".", "1", "1", "1", "1", ".", "1", "1", "1", "1", "1", ".", "1", "1", ".", "1", "1", "1", "1", "1", ".", "1", "1", "1", "1", ".", "1"],
@@ -41,10 +41,10 @@ export class Pacman
 
     constructor(game) {
         this.game = game
-        this.mazeHeight = this.playground.length
+        this.mazeHeight = Pacman.playground.length
         this.mazeWidth = 0
 
-        this.playground.forEach((row, line) => {
+        Pacman.playground.forEach((row, line) => {
             if (this.mazeWidth < row.length) {
                 this.mazeWidth = row.length
             }
@@ -67,7 +67,7 @@ export class Pacman
 
         this.mazeBackground(canvas)
 
-        this.playground.forEach((row, line) => {
+        Pacman.playground.forEach((row, line) => {
             row.forEach((box, index) => {
                 if (box === '1') {
 
@@ -165,7 +165,7 @@ export class Pacman
 
         if(getLineAbove < 0) {
             return "v"
-        }else if(this.playground[getLineAbove][index] == "1") {
+        }else if(Pacman.playground[getLineAbove][index] == "1") {
             return "w"
         }
         return "f"
@@ -177,7 +177,7 @@ export class Pacman
 
         if(getLineUnder >= this.mazeHeight) {
             return "v"
-        }else if(this.playground[getLineUnder][index] == "1") {
+        }else if(Pacman.playground[getLineUnder][index] == "1") {
             return "w"
         }
         return "f"
@@ -188,7 +188,7 @@ export class Pacman
 
         if(getIndexLeft < 0) {
             return "v"
-        }else if(this.playground[line][getIndexLeft] == "1") {
+        }else if(Pacman.playground[line][getIndexLeft] == "1") {
             return "w"
         }
         return "f"
@@ -200,7 +200,7 @@ export class Pacman
 
         if(getIndexRight >= row.length) {
             return "v"
-        }else if(this.playground[line][getIndexRight] == "1") {
+        }else if(Pacman.playground[line][getIndexRight] == "1") {
             return "w"
         }
         return "f"
