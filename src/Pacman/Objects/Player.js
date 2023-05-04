@@ -11,7 +11,7 @@ export class Player {
     currentFrame = 0;
     frameDelay = 0;
     spritePerFrames = 0
-    speed = 6
+    speed = 4
     playerWidth = 32
     playerHeight = 32
     canvas = document.getElementById('player')
@@ -19,8 +19,8 @@ export class Player {
 
 
     position = {
-        x: 0,
-        y: 0
+        x: -99,
+        y: -99
     }
 
     velocity = {
@@ -43,10 +43,10 @@ export class Player {
         this.canvas.height = innerHeight
         this.canvas.width = innerWidth
 
-        if (this.position.x === 0) {
+        if (this.position.x === -99) {
             this.position.x = startPositionX
         }
-        if (this.position.y === 0) {
+        if (this.position.y === -99) {
             this.position.y = startPositionY
         }
 
@@ -166,7 +166,7 @@ export class Player {
 
     checkCollision() {
 
-        let tolerance = 2
+        let tolerance = 4
 
         let positionPlayer = {
             center: {
@@ -185,7 +185,7 @@ export class Player {
             x: 0,
             y: 0
         }
-        this.context.fillText(this.position.x + 'x' + this.position.y, 10, 10)
+        this.context.fillText(positionPlayer.top + 'x' + positionPlayer.left, 10, 10)
 
         Pacman.playground.forEach((row, lineIndex) => {
             if (lineIndex * Wall.size < positionPlayer.center.y && (lineIndex + 1) * Wall.size >= positionPlayer.center.y) {
@@ -210,9 +210,10 @@ export class Player {
 
             this.context.fillText(Pacman.playground[coor.y][coor.x + 1], 10, 40)
 
+            this.context.fillText(positionPlayer.right + this.velocity.x + '<' + (((coor.x + 1) * Wall.size) + (Wall.size / 2)), 100, 40)
             if (
                 Pacman.playground[coor.y][coor.x + 1] === '1'
-                //&& positionPlayer.right + this.velocity.x > (fieldIndex + 1) * Wall.size + (Wall.size / 2)
+                && positionPlayer.right + this.velocity.x >= (coor.x + 1) * Wall.size + (Wall.size / 2)
             ) {
                 this.velocity.x = 0
             }
@@ -221,9 +222,10 @@ export class Player {
             this.context.fillText('links', 10, 20)
 
             this.context.fillText(Pacman.playground[coor.y][coor.x - 1], 10, 40)
+            this.context.fillText(positionPlayer.left + this.velocity.x + '<' + (((coor.x - 1) * Wall.size) + (Wall.size / 2)), 100, 40)
             if (
                 Pacman.playground[coor.y][coor.x - 1] === '1'
-                //&& positionPlayer.right + this.velocity.x > (fieldIndex + 1) * Wall.size + (Wall.size / 2)
+                && positionPlayer.left + this.velocity.x <= coor.x * Wall.size - (Wall.size / 2)
             ) {
                 this.velocity.x = 0
             }
@@ -236,7 +238,7 @@ export class Player {
 
             if (
                 Pacman.playground[coor.y - 1][coor.x] === '1'
-                //&& positionPlayer.right + this.velocity.x > (fieldIndex + 1) * Wall.size + (Wall.size / 2)
+                && positionPlayer.top + this.velocity.y <= coor.y * Wall.size - (Wall.size / 2)
             ) {
                 this.velocity.y = 0
             }
@@ -249,7 +251,7 @@ export class Player {
 
             if (
                 Pacman.playground[coor.y + 1][coor.x] === '1'
-                //&& positionPlayer.right + this.velocity.x > (fieldIndex + 1) * Wall.size + (Wall.size / 2)
+                && positionPlayer.bottom + this.velocity.y >= (coor.y + 1) * Wall.size + (Wall.size / 2)
             ) {
                 this.velocity.y = 0
             }
