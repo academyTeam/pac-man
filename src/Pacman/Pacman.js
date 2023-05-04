@@ -82,7 +82,7 @@ export class Pacman
             })
         })
 
-        this.player.draw(this.left, this.top)
+        this.player.draw(this.left + 12, this.top + 12)
     }
 
     mazeBackground(canvas) {

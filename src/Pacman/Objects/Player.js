@@ -47,15 +47,21 @@ export class Player {
             this.position.y = startPositionY
         }
 
-        this.position.x += this.velocity.x
-        this.position.y += this.velocity.y
+        if (this.position.x += this.velocity.x) {
+            this.position.x += this.velocity.x
+        }
+        if (this.position.y += this.velocity.y) {
+            this.position.y += this.velocity.y
+        }
+
 
         this.context.imageSmoothingEnabled = false;
 
         this.context.drawImage(this.myImage, this.shift, 0, this.frameWidth, this.frameHeight,
            this.position.x, this.position.y, this.playerWidth, this.playerHeight);
 
-        const imageData = this.context.getImageData(0, 0, this.game.canvas.width, this.game.canvas.height);
+        // add transparency to sprites
+        const imageData = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
         const data = imageData.data;
 
         for (let i = 0; i < data.length; i += 4) {
