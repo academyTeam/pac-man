@@ -10,8 +10,9 @@ export class Player {
     totalFrames = 5;
     currentFrame = 0;
     frameDelay = 0;
+    lastKey = ''
     spritePerFrames = 0
-    speed = 4
+    speed = 3
     playerWidth = 32
     playerHeight = 32
     canvas = document.getElementById('player')
@@ -52,13 +53,83 @@ export class Player {
 
         let context = this.game.context
 
+        switch (this.lastKey) {
+            case 'w':
+                this.velocity.y = -this.speed
+                break
+            case 'a':
+                this.velocity.x = -this.speed
+                break
+            case 's':
+                this.velocity.y = this.speed
+                break
+            case 'd':
+                this.velocity.x = this.speed
+                break
+        }
+
+
         this.checkCollision()
 
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
 
+        this.context.strokeStyle = '#CCCCCC'
+        this.context.FillStyle = '#FFFFFF'
+
+        if (this.velocity.y < 0) {
+            this.context.fillStyle = '#FFFFFF'
+            this.context.fillText('W', 200, 25)
+        } else {
+            this.context.fillStyle = '#999999'
+
+            if (this.lastKey === 'w') {
+                this.context.fillStyle = '#FF0000'
+            }
+
+            this.context.fillText('W', 200, 25)
+        }
+
+        if (this.velocity.x < 0) {
+            this.context.fillStyle = '#FFFFFF'
+            this.context.fillText('A', 190, 35)
+        } else {
+            this.context.fillStyle = '#999999'
+
+            if (this.lastKey === 'a') {
+                this.context.fillStyle = '#FF0000'
+            }
+
+            this.context.fillText('A', 190, 35)
+        }
+
+        if (this.velocity.x > 0) {
+            this.context.fillStyle = '#FFFFFF'
+            this.context.fillText('D', 210, 35)
+        } else {
+            this.context.fillStyle = '#999999'
+            if (this.lastKey === 'd') {
+                this.context.fillStyle = '#FF0000'
+            }
+            this.context.fillText('D', 210, 35)
+        }
+
+        if (this.velocity.y > 0) {
+            this.context.fillStyle = '#FFFFFF'
+            this.context.fillText('S', 200, 45)
+        } else {
+            this.context.fillStyle = '#999999'
+            if (this.lastKey === 's') {
+                this.context.fillStyle = '#FF0000'
+            }
+            this.context.fillText('S', 200, 45)
+        }
+
+
 
         this.context.imageSmoothingEnabled = false;
+
+
 
         this.context.drawImage(this.myImage, this.shift, 0, this.frameWidth, this.frameHeight,
            this.position.x, this.position.y, this.playerWidth, this.playerHeight);
@@ -125,43 +196,47 @@ export class Player {
                 case 'w':
                 case 'ArrowUp':
                     this.velocity.y = -this.speed
+                    this.lastKey = 'w'
                     break
                 case 'a':
                 case 'ArrowLeft':
                     this.velocity.x = -this.speed
+                    this.lastKey = 'a'
                     break
                 case 's':
                 case 'ArrowDown':
                     this.velocity.y = this.speed
+                    this.lastKey = 's'
                     break
                 case 'd':
                 case 'ArrowRight':
                     this.velocity.x = this.speed
+                    this.lastKey = 'd'
                     break
             }
         });
 
 
-        addEventListener('keyup', ({key}) => {
-            switch (key) {
-                case 'w':
-                case 'ArrowUp':
-                    this.velocity.y = 0
-                    break
-                case 'a':
-                case 'ArrowLeft':
-                    this.velocity.x = 0
-                    break
-                case 's':
-                case 'ArrowDown':
-                    this.velocity.y = 0
-                    break
-                case 'd':
-                case 'ArrowRight':
-                    this.velocity.x = 0
-                    break
-            }
-        });
+        // addEventListener('keyup', ({key}) => {
+        //     switch (key) {
+        //         case 'w':
+        //         case 'ArrowUp':
+        //             this.velocity.y = 0
+        //             break
+        //         case 'a':
+        //         case 'ArrowLeft':
+        //             this.velocity.x = 0
+        //             break
+        //         case 's':
+        //         case 'ArrowDown':
+        //             this.velocity.y = 0
+        //             break
+        //         case 'd':
+        //         case 'ArrowRight':
+        //             this.velocity.x = 0
+        //             break
+        //     }
+        // });
     }
 
     checkCollision() {
