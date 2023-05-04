@@ -5,6 +5,9 @@ export class Pacman
 {
     debug = false
 
+    static top = 0
+    static left = 0
+
     static playground = [
             ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
             ["1", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "1", "1", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "1"],
@@ -59,11 +62,11 @@ export class Pacman
 
         let context = canvas.getContext('2d')
 
-        this.left = canvas.width / 2 - (this.mazeWidth * Wall.size / 2)
-        this.top = canvas.height / 2 - (this.mazeHeight * Wall.size / 2)
+        Pacman.left = canvas.width / 2 - (this.mazeWidth * Wall.size / 2)
+        Pacman.top = canvas.height / 2 - (this.mazeHeight * Wall.size / 2)
 
-        if (this.top < 0) this.top = 0
-        if (this.left < 0) this.left = 0
+        if (Pacman.top < 0) Pacman.top = 0
+        if (Pacman.left < 0) Pacman.left = 0
 
         this.mazeBackground(canvas)
 
@@ -74,8 +77,8 @@ export class Pacman
                     let wall = new Wall(this.game, {
                         x: index * Wall.size,
                         y: line * Wall.size,
-                        left: this.left,
-                        top: this.top
+                        left: Pacman.left,
+                        top: Pacman.top
                     })
 
                     this.checkWallComponment(wall, line, index, row)
@@ -83,7 +86,7 @@ export class Pacman
             })
         })
 
-        this.player.draw(this.left + 12, this.top + 12)
+        this.player.draw(Pacman.left + 8, Pacman.top + 8)
     }
 
     checkWallComponment(wall, line, index, row) {
@@ -223,8 +226,8 @@ export class Pacman
 
                 context.strokeStyle = context.fillStyle
 
-                let positionX = this.left + row * Wall.size
-                let positionY = this.top + line * Wall.size
+                let positionX = Pacman.left + row * Wall.size
+                let positionY = Pacman.top + line * Wall.size
 
                 context.fillRect(positionX, positionY, Wall.size, Wall.size)
                 context.strokeRect(positionX, positionY, Wall.size, Wall.size)

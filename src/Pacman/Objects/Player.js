@@ -1,4 +1,5 @@
 import {Pacman} from "../Pacman.js";
+import {Wall} from "./Wall.js";
 
 export class Player {
 
@@ -43,27 +44,18 @@ export class Player {
         this.canvas.width = innerWidth
 
         if (this.position.x === 0) {
-            this.position.x = startPositionX+12
+            this.position.x = startPositionX
         }
         if (this.position.y === 0) {
-            this.position.y = startPositionY+12
+            this.position.y = startPositionY
         }
 
         let context = this.game.context
 
-        let potentialX = this.position.x + this.velocity.x
-        let potentialY = this.position.y + this.velocity.y
+        this.checkCollision()
 
-        if (this.isCollisionX(potentialX)) {
-            potentialX = this.position.x
-        }
-
-        if (this.isCollisionX(potentialX)) {
-            potentialY = this.position.y
-        }
-
-        this.position.x = potentialX
-        this.position.y = potentialY
+        this.position.x += this.velocity.x
+        this.position.y += this.velocity.y
 
 
         this.context.imageSmoothingEnabled = false;
@@ -172,25 +164,43 @@ export class Player {
         });
     }
 
-    isCollisionX(potentialX) {
+    checkCollision() {
 
-        // // TODO check right
-        // Pacman.playground.forEach(line => {
-        //     line.forEach(field => {
-        //         // todo: find right box
-        //         // todo: get left border (postion of box + wall.size / 2)
-        //         if (potentialX > positionOfBoxBorder) {
-        //             return true
-        //         }
-        //     })
-        // });
+        let positionPlayerMid = {
+            x: this.position.x - Pacman.left + this.playerWidth / 2,
+            y: this.position.y - Pacman.top + this.playerHeight / 2
+        }
+
+        Pacman.playground.forEach((row, lineIndex) => {
+            if (lineIndex * Wall.size < positionPlayerMid.y && (lineIndex + 1) * Wall.size > positionPlayerMid.y) {
+
+                row.forEach((field, fieldIndex) => {
+                    if (fieldIndex * Wall.size < positionPlayerMid.x && (fieldIndex + 1) * Wall.size > positionPlayerMid.x) {
+
+                        // todo: find right box
+                        // todo: get left border (position of box + wall.size / 2)
+
+                        let positionOfBoxBorder = (fieldIndex + 1) * Wall.size
+
+                        if (this.velocity.x > 0 && Pacman.playground[lineIndex][fieldIndex + 1] === '1' && this.position.x + this.velocity.x > positionOfBoxBorder) {
+                            this.velocity.x = 0
+                        }
+
+                        positionOfBoxBorder = (fieldIndex - 1) * Wall.size
+                        if (this.velocity.x < 0 && Pacman.playground[lineIndex][fieldIndex - 1] === '1' && this.position.x + this.velocity.x < positionOfBoxBorder) {
+                            this.velocity.x = 0
+                        }
+                    }
+                })
+            }
+        });
 
         // Pacman.playground.forEach(line => {
         //     line.forEach(field => {
         //         // todo: find left box
-        //         // todo: get right border (postion of box + wall.size / 2)
-        //         if (potentialX > positionOfBoxBorder) {
-        //             return true
+        //         // todo: get right border (position of box + wall.size / 2)
+        //         if (potentialX < positionOfBoxBorder) {
+        //             return false
         //         }
         //     })
         // });

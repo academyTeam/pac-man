@@ -1,6 +1,6 @@
 export class Wall
 {
-    static size = 20
+    static size = 16
 
     static OUTER_CORNER_LEFT_TOP = {x: 762, y: 293}
     static OUTER_CORNER_RIGHT_TOP = {x: 753, y: 293}
