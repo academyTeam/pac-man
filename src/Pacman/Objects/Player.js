@@ -1,3 +1,5 @@
+import {Pacman} from "../Pacman.js";
+
 export class Player {
 
     shift = 0;
@@ -41,18 +43,27 @@ export class Player {
         this.canvas.width = innerWidth
 
         if (this.position.x === 0) {
-            this.position.x = startPositionX
+            this.position.x = startPositionX+12
         }
         if (this.position.y === 0) {
-            this.position.y = startPositionY
+            this.position.y = startPositionY+12
         }
 
-        if (this.position.x += this.velocity.x) {
-            this.position.x += this.velocity.x
+        let context = this.game.context
+
+        let potentialX = this.position.x + this.velocity.x
+        let potentialY = this.position.y + this.velocity.y
+
+        if (this.isCollisionX(potentialX)) {
+            potentialX = this.position.x
         }
-        if (this.position.y += this.velocity.y) {
-            this.position.y += this.velocity.y
+
+        if (this.isCollisionX(potentialX)) {
+            potentialY = this.position.y
         }
+
+        this.position.x = potentialX
+        this.position.y = potentialY
 
 
         this.context.imageSmoothingEnabled = false;
@@ -73,18 +84,18 @@ export class Player {
         this.context.putImageData(imageData, 0, 0);
 
         this.frameDelay++
-        if (this.frameDelay >= this.game.maxFps / (this.totalFrames * 4)) {
 
+        if (this.frameDelay >= this.game.maxFps / (this.totalFrames * 4)) {
             this.shift += this.frameWidth + 0
 
             this.currentFrame++
+
             if (this.currentFrame >= this.totalFrames) {
                 this.currentFrame = 0
                 this.shift = this.startFrame
-
             }
-            this.frameDelay = 0
 
+            this.frameDelay = 0
         }
     }
 
@@ -159,5 +170,32 @@ export class Player {
                     break
             }
         });
+    }
+
+    isCollisionX(potentialX) {
+
+        // // TODO check right
+        // Pacman.playground.forEach(line => {
+        //     line.forEach(field => {
+        //         // todo: find right box
+        //         // todo: get left border (postion of box + wall.size / 2)
+        //         if (potentialX > positionOfBoxBorder) {
+        //             return true
+        //         }
+        //     })
+        // });
+
+        // Pacman.playground.forEach(line => {
+        //     line.forEach(field => {
+        //         // todo: find left box
+        //         // todo: get right border (postion of box + wall.size / 2)
+        //         if (potentialX > positionOfBoxBorder) {
+        //             return true
+        //         }
+        //     })
+        // });
+
+
+        return false;
     }
 }
