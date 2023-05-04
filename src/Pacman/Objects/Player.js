@@ -12,11 +12,12 @@ export class Player {
     frameDelay = 0;
     lastKey = ''
     spritePerFrames = 0
-    speed = 3
+    speed = 4
     playerWidth = 32
     playerHeight = 32
     canvas = document.getElementById('player')
     context = this.canvas.getContext("2d")
+    imageCache = {}
 
 
     position = {
@@ -50,8 +51,6 @@ export class Player {
         if (this.position.y === -99) {
             this.position.y = startPositionY
         }
-
-        let context = this.game.context
 
         switch (this.lastKey) {
             case 'w':
@@ -126,25 +125,27 @@ export class Player {
         }
 
 
-
         this.context.imageSmoothingEnabled = false;
 
 
+        let imageData = this.imageCache[this.shift]
+        if (imageData === undefined) {
+            this.context.drawImage(this.myImage, this.shift, 0, this.frameWidth, this.frameHeight,
+                this.position.x, this.position.y, this.playerWidth, this.playerHeight);
 
-        this.context.drawImage(this.myImage, this.shift, 0, this.frameWidth, this.frameHeight,
-           this.position.x, this.position.y, this.playerWidth, this.playerHeight);
+            // add transparency to sprites
+            imageData = this.context.getImageData(this.position.x, this.position.y, this.playerWidth, this.playerHeight);
+            const data = imageData.data;
 
-        // add transparency to sprites
-        const imageData = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
-        const data = imageData.data;
-
-        for (let i = 0; i < data.length; i += 4) {
-            // if the pixel matches our transparent color, set alpha to 0
-            if(data[i] === 128 && data[i + 1] === 0 && data[i + 2] === 128) {
-                data[i+3] = 0;
+            for (let i = 0; i < data.length; i += 4) {
+                // if the pixel matches our transparent color, set alpha to 0
+                if(data[i] === 128 && data[i + 1] === 0 && data[i + 2] === 128) {
+                    data[i+3] = 0;
+                }
             }
+            this.imageCache[this.shift] = imageData
         }
-        this.context.putImageData(imageData, 0, 0);
+        this.context.putImageData(imageData, this.position.x, this.position.y);
 
         this.frameDelay++
 

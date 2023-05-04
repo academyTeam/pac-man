@@ -3,10 +3,11 @@ import {Player} from "./Objects/Player.js";
 
 export class Pacman
 {
-    debug = false
+    debug = true
 
     static top = 0
     static left = 0
+    mapCache = undefined
 
     static playground = [
             ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
@@ -56,11 +57,11 @@ export class Pacman
         this.player = new Player(game)
     }
 
-    animate() {
+    async animate() {
 
         let canvas = this.game.canvas
 
-        let context = canvas.getContext('2d')
+        let context = this.game.context
 
         Pacman.left = canvas.width / 2 - (this.mazeWidth * Wall.size / 2)
         Pacman.top = canvas.height / 2 - (this.mazeHeight * Wall.size / 2)
@@ -68,25 +69,42 @@ export class Pacman
         if (Pacman.top < 0) Pacman.top = 0
         if (Pacman.left < 0) Pacman.left = 0
 
-        this.mazeBackground(canvas)
+        let imageData = this.mapCache
+        if (imageData === undefined) {
+            this.mazeBackground(canvas)
 
-        Pacman.playground.forEach((row, line) => {
-            row.forEach((box, index) => {
-                if (box === '1') {
+            await Pacman.playground.forEach((row, line) => {
+                 row.forEach((box, index) => {
+                    if (box === '1') {
 
-                    let wall = new Wall(this.game, {
-                        x: index * Wall.size,
-                        y: line * Wall.size,
-                        left: Pacman.left,
-                        top: Pacman.top
-                    })
+                        let wall = new Wall(this.game, {
+                            x: index * Wall.size,
+                            y: line * Wall.size,
+                            left: Pacman.left,
+                            top: Pacman.top
+                        })
 
-                    this.checkWallComponment(wall, line, index, row)
-                }
+                        this.checkWallComponment(wall, line, index, row)
+                    }
+                })
             })
-        })
 
-        this.player.draw(Pacman.left + 8, Pacman.top + 8)
+
+            // add transparency to sprites
+            imageData = context.getImageData(Pacman.left, Pacman.top, (Pacman.left + this.mazeWidth * Wall.size), (Pacman.top + this.mazeHeight * Wall.size));
+            // const data = imageData.data;
+            //
+            // for (let i = 0; i < data.length; i += 4) {
+            //     // if the pixel matches our transparent color, set alpha to 0
+            //     if(data[i] === 128 && data[i + 1] === 0 && data[i + 2] === 128) {
+            //         data[i+3] = 0;
+            //     }
+            // }
+            this.mapCache = imageData
+        }
+        context.putImageData(imageData, Pacman.left, Pacman.top);
+
+        // this.player.draw(Pacman.left + 8, Pacman.top + 8)
     }
 
     checkWallComponment(wall, line, index, row) {
@@ -211,7 +229,7 @@ export class Pacman
 
     mazeBackground(canvas) {
 
-        let context = canvas.getContext('2d')
+        let context = this.game.context
         let color = '#999999'
 
 
@@ -239,28 +257,28 @@ export class Pacman
 
         let color = '#999999'
 
-        let context = canvas.getContext('2d')
+        let context = this.game.context
 
 
-        let gradTop = context.createLinearGradient(0, this.top - (4 * Wall.size), 0, this.top);
+        let gradTop = context.createLinearGradient(0, Pacman.top - (4 * Wall.size), 0, Pacman.top);
 
         gradTop.addColorStop(0, "#000000");
         gradTop.addColorStop(1, color);
 
 
-        let gradBottom = context.createLinearGradient(0, this.top + (this.mazeWidth * Wall.size), 0, this.top + (this.mazeWidth * Wall.size) + (4*Wall.size));
+        let gradBottom = context.createLinearGradient(0, Pacman.top + (this.mazeWidth * Wall.size), 0, Pacman.top + (this.mazeWidth * Wall.size) + (4*Wall.size));
 
         gradBottom.addColorStop(0, color);
         gradBottom.addColorStop(1, "#000000");
 
 
-        let gradLeft = context.createLinearGradient(this.left - (4 * Wall.size), 0, this.left, 0);
+        let gradLeft = context.createLinearGradient(Pacman.left - (4 * Wall.size), 0, Pacman.left, 0);
 
         gradLeft.addColorStop(0, "#000000");
         gradLeft.addColorStop(1, color);
 
 
-        let gradRight = context.createLinearGradient(this.left + (this.mazeWidth * Wall.size), 0, this.left + (this.mazeWidth * Wall.size) + (4 * Wall.size), 0);
+        let gradRight = context.createLinearGradient(Pacman.left + (this.mazeWidth * Wall.size), 0, Pacman.left + (this.mazeWidth * Wall.size) + (4 * Wall.size), 0);
 
         gradRight.addColorStop(0, color);
         gradRight.addColorStop(1, "#000000");
@@ -271,28 +289,28 @@ export class Pacman
             this.strokeLine(
                 context,
                 gradLeft,
-                this.left - (4 * Wall.size),
-                this.top + (x * Wall.size),
-                this.left,
-                this.top + (x * Wall.size)
+                Pacman.left - (4 * Wall.size),
+                Pacman.top + (x * Wall.size),
+                Pacman.left,
+                Pacman.top + (x * Wall.size)
             )
 
             this.strokeLine(
                 context,
                 color,
-                this.left,
-                this.top + (x * Wall.size),
-                this.left + (this.mazeWidth * Wall.size),
-                this.top + (x * Wall.size)
+                Pacman.left,
+                Pacman.top + (x * Wall.size),
+                Pacman.left + (this.mazeWidth * Wall.size),
+                Pacman.top + (x * Wall.size)
             )
 
             this.strokeLine(
                 context,
                 gradRight,
-                this.left + (this.mazeWidth * Wall.size),
-                this.top + (x * Wall.size),
-                this.left + (this.mazeWidth * Wall.size) + (4 * Wall.size),
-                this.top + (x * Wall.size)
+                Pacman.left + (this.mazeWidth * Wall.size),
+                Pacman.top + (x * Wall.size),
+                Pacman.left + (this.mazeWidth * Wall.size) + (4 * Wall.size),
+                Pacman.top + (x * Wall.size)
             )
         }
 
@@ -301,35 +319,35 @@ export class Pacman
             this.strokeLine(
                 context,
                 gradTop,
-                this.left + (x * Wall.size),
-                this.top - (4 * Wall.size),
-                this.left + (x * Wall.size),
-                this.top
+                Pacman.left + (x * Wall.size),
+                Pacman.top - (4 * Wall.size),
+                Pacman.left + (x * Wall.size),
+                Pacman.top
             )
 
             this.strokeLine(
                 context,
                 color,
-                this.left + (x * Wall.size),
-                this.top,
-                this.left + (x * Wall.size),
-                this.top + (this.mazeHeight * Wall.size)
+                Pacman.left + (x * Wall.size),
+                Pacman.top,
+                Pacman.left + (x * Wall.size),
+                Pacman.top + (this.mazeHeight * Wall.size)
             )
 
 
             this.strokeLine(
                 context,
                 gradBottom,
-                this.left + (x * Wall.size),
-                this.top + (this.mazeHeight * Wall.size),
-                this.left + (x * Wall.size),
-                this.top + (this.mazeHeight * Wall.size) + (4 * Wall.size)
+                Pacman.left + (x * Wall.size),
+                Pacman.top + (this.mazeHeight * Wall.size),
+                Pacman.left + (x * Wall.size),
+                Pacman.top + (this.mazeHeight * Wall.size) + (4 * Wall.size)
             )
         }
 
         context.fillStyle = '#FFFFFF'
         context.font = "10px serif"
-        context.fillText(this.mazeWidth + 'x' + this.mazeHeight, this.left - (2 * Wall.size), this.top - (1 * Wall.size))
+        context.fillText(this.mazeWidth + 'x' + this.mazeHeight, Pacman.left - (2 * Wall.size), Pacman.top - (1 * Wall.size))
     }
 
     strokeLine(context, strokeColor, startX, startY, endX, endY) {

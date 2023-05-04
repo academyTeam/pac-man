@@ -93,14 +93,14 @@ export class Game
     }
 
     renderDebug() {
-        if (!this.state.debug) {
-            return
-        }
-
-        this.game.animateDebug(this.canvas)
-
         this.context.fillStyle = '#FFFFFF'
         this.context.font = "bold 20px serif"
         this.context.fillText(this.framesLast + 'fps', this.canvas.width - 50, this.canvas.height - 10)
+        if (!this.state.debug) {
+            return
+
+        }
+
+        this.game.animateDebug(this.canvas)
     }
 }
