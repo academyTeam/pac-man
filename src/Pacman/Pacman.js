@@ -9,7 +9,7 @@ export class Pacman
             ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
             ["1", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "1", "1", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "1"],
             ["1", ".", "1", "1", "1", "1", ".", "1", "1", "1", "1", "1", ".", "1", "1", ".", "1", "1", "1", "1", "1", ".", "1", "1", "1", "1", ".", "1"],
-            ["1", ".", "1", "1", "1", "1", ".", "1", "1", "1", "1", "1", ".", "1", "1", ".", "1", "1", "1", "1", "1", ".", "1", "1", "1", "1", ".", "1"],
+            ["1", "O", "1", "1", "1", "1", ".", "1", "1", "1", "1", "1", ".", "1", "1", ".", "1", "1", "1", "1", "1", ".", "1", "1", "1", "1", "O", "1"],
             ["1", ".", "1", "1", "1", "1", ".", "1", "1", "1", "1", "1", ".", "1", "1", ".", "1", "1", "1", "1", "1", ".", "1", "1", "1", "1", ".", "1"],
             ["1", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "1"],
             ["1", ".", "1", "1", "1", "1", ".", "1", "1", ".", "1", "1", "1", "1", "1", "1", "1", "1", ".", "1", "1", ".", "1", "1", "1", "1", ".", "1"],
@@ -17,19 +17,19 @@ export class Pacman
             ["1", ".", ".", ".", ".", ".", ".", "1", "1", ".", ".", ".", ".", "1", "1", ".", ".", ".", ".", "1", "1", ".", ".", ".", ".", ".", ".", "1"],
             ["1", "1", "1", "1", "1", "1", ".", "1", "1", "1", "1", "1", ".", "1", "1", ".", "1", "1", "1", "1", "1", ".", "1", "1", "1", "1", "1", "1"],
             ["1", "1", "1", "1", "1", "1", ".", "1", "1", "1", "1", "1", ".", "1", "1", ".", "1", "1", "1", "1", "1", ".", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", ".", "1", "1", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "1", "1", ".", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", ".", "1", "1", ".", "1", "1", "1", ".", ".", "1", "1", "1", ".", "1", "1", ".", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", ".", "1", "1", ".", "1", "-", "-", "-", "-", "-", "-", "1", ".", "1", "1", ".", "1", "1", "1", "1", "1", "1"],
-            [".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "1", "-", "-", "-", "-", "-", "-", "1", ".", ".", ".", ".", ".", ".", ".", ".", ".", "."],
-            ["1", "1", "1", "1", "1", "1", ".", "1", "1", ".", "1", "-", "-", "-", "-", "-", "-", "1", ".", "1", "1", ".", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", ".", "1", "1", ".", "1", "1", "1", "1", "1", "1", "1", "1", ".", "1", "1", ".", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", ".", "1", "1", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "1", "1", ".", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", ".", "1", "1", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "1", "1", ".", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", ".", "1", "1", "-", "1", "1", "1", "/", "/", "1", "1", "1", "-", "1", "1", ".", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", ".", "1", "1", "-", "1", "-", "-", "-", "-", "-", "-", "1", "-", "1", "1", ".", "1", "1", "1", "1", "1", "1"],
+            [".", ".", ".", ".", ".", ".", ".", ".", ".", "-", "1", "-", "-", "-", "-", "-", "-", "1", "-", ".", ".", ".", ".", ".", ".", ".", ".", "."],
+            ["1", "1", "1", "1", "1", "1", ".", "1", "1", "-", "1", "-", "-", "-", "-", "-", "-", "1", "-", "1", "1", ".", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", ".", "1", "1", "-", "1", "1", "1", "1", "1", "1", "1", "1", "-", "1", "1", ".", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", ".", "1", "1", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "1", "1", ".", "1", "1", "1", "1", "1", "1"],
             ["1", "1", "1", "1", "1", "1", ".", "1", "1", ".", "1", "1", "1", "1", "1", "1", "1", "1", ".", "1", "1", ".", "1", "1", "1", "1", "1", "1"],
             ["1", "1", "1", "1", "1", "1", ".", "1", "1", ".", "1", "1", "1", "1", "1", "1", "1", "1", ".", "1", "1", ".", "1", "1", "1", "1", "1", "1"],
             ["1", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "1", "1", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "1"],
             ["1", ".", "1", "1", "1", "1", ".", "1", "1", "1", "1", "1", ".", "1", "1", ".", "1", "1", "1", "1", "1", ".", "1", "1", "1", "1", ".", "1"],
             ["1", ".", "1", "1", "1", "1", ".", "1", "1", "1", "1", "1", ".", "1", "1", ".", "1", "1", "1", "1", "1", ".", "1", "1", "1", "1", ".", "1"],
-            ["1", ".", ".", ".", "1", "1", ".", ".", ".", ".", ".", ".", ".", "S", "S", ".", ".", ".", ".", ".", ".", ".", "1", "1", ".", ".", ".", "1"],
+            ["1", "O", ".", ".", "1", "1", ".", ".", ".", ".", ".", ".", ".", "S", "S", ".", ".", ".", ".", ".", ".", ".", "1", "1", ".", ".", "O", "1"],
             ["1", "1", "1", ".", "1", "1", ".", "1", "1", ".", "1", "1", "1", "1", "1", "1", "1", "1", ".", "1", "1", ".", "1", "1", ".", "1", "1", "1"],
             ["1", "1", "1", ".", "1", "1", ".", "1", "1", ".", "1", "1", "1", "1", "1", "1", "1", "1", ".", "1", "1", ".", "1", "1", ".", "1", "1", "1"],
             ["1", ".", ".", ".", ".", ".", ".", "1", "1", ".", ".", ".", ".", "1", "1", ".", ".", ".", ".", "1", "1", ".", ".", ".", ".", ".", ".", "1"],
@@ -77,12 +77,133 @@ export class Pacman
                         left: this.left,
                         top: this.top
                     })
-                    wall.draw("rgba(51, 51, 204, 0.7)")
+
+                    this.checkWallComponment(wall, line, index, row)
                 }
             })
         })
 
         this.player.draw(this.left + 12, this.top + 12)
+    }
+
+    checkWallComponment(wall, line, index, row) {
+
+        //it is always the sequence of "Above, Under, Left, Right"
+        var stringBuild = this.checkAbove(line, index)
+        stringBuild += this.checkUnder(line, index)
+        stringBuild += this.checkLeft(line, index)
+        stringBuild += this.checkRight(line, index, row)
+
+        // console.log(stringBuild)
+        // wall.draw() v= void, f= free, w = wall
+        switch(stringBuild) {
+            case "vwvw":
+                wall.draw(Wall.OUTER_CORNER_LEFT_TOP, Wall.OUTER_TOP_PLAIN, Wall.OUTER_LEFT_PLAIN, Wall.BLANK)
+                break
+            case "vfww":
+                wall.draw(Wall.OUTER_TOP_PLAIN, Wall.OUTER_TOP_PLAIN, Wall.BLANK, Wall.BLANK)
+                break
+            case "vwww":
+                wall.draw(Wall.OUTER_TOP_PLAIN, Wall.OUTER_CORNER_DOWN, Wall.BLANK, Wall.INNER_DOWN_LEFT)
+                break
+            case "vwwv":
+                wall.draw(Wall.OUTER_TOP_PLAIN, Wall.OUTER_CORNER_RIGHT_TOP, Wall.BLANK, Wall.OUTER_RIGHT_PLAIN)
+                break
+            case "wwfv":
+                wall.draw(Wall.BLANK, Wall.OUTER_RIGHT_PLAIN, Wall.BLANK, Wall.OUTER_RIGHT_PLAIN)
+                break
+            case "wwvf":
+                wall.draw(Wall.OUTER_LEFT_PLAIN, Wall.BLANK, Wall.OUTER_LEFT_PLAIN, Wall.BLANK)
+                break
+            case "wwfw":
+                wall.draw(Wall.BLANK, Wall.INNER_DOWN_LEFT, Wall.BLANK, Wall.INNER_DOWN_LEFT)
+                break
+            case "wwwf":
+                wall.draw(Wall.INNER_DOWN_RIGHT, Wall.BLANK, Wall.INNER_DOWN_RIGHT, Wall.BLANK)
+                break
+            case "wwww":
+                wall.draw(Wall.BLANK, Wall.BLANK, Wall.BLANK, Wall.BLANK)
+                break
+            case "fwww":
+                wall.draw(Wall.BLANK, Wall.BLANK, Wall.INNER_TOP_PLAIN, Wall.INNER_TOP_PLAIN)
+                break
+            case "wfww":
+                wall.draw(Wall.INNER_TOP_PLAIN, Wall.INNER_TOP_PLAIN, Wall.BLANK, Wall.BLANK)
+                break
+            case "fwfw":
+                wall.draw(Wall.BLANK, Wall.BLANK, Wall.BLANK, Wall.INNER_CORNER_RIGHT_TOP)
+                break
+            case "wffw":
+                wall.draw(Wall.BLANK, Wall.INNER_CORNER_RIGHT_DOWN, Wall.BLANK, Wall.BLANK)
+                break
+            case "fwwf":
+                wall.draw(Wall.BLANK, Wall.BLANK, Wall.INNER_CORNER_LEFT_TOP, Wall.BLANK)
+                break
+            case "wfwf":
+                wall.draw(Wall.INNER_CORNER_LEFT_DOWN, Wall.BLANK, Wall.BLANK, Wall.BLANK)
+                break
+            case "fvww":
+                wall.draw(Wall.BLANK, Wall.BLANK, Wall.OUTER_DOWN_PLAIN, Wall.OUTER_DOWN_PLAIN)
+                break
+            case "wvvw":
+                wall.draw(Wall.OUTER_LEFT_PLAIN, Wall.BLANK, Wall.OUTER_CORNER_RIGHT_DOWN, Wall.OUTER_DOWN_PLAIN)
+                break
+            case "wvwv":
+                wall.draw(Wall.BLANK, Wall.OUTER_RIGHT_PLAIN, Wall.OUTER_DOWN_PLAIN, Wall.OUTER_CORNER_LEFT_DOWN)
+                break
+            case "f":
+                wall.draw()
+                break
+            default:
+                wall.draw(Wall.OUTER_CORNER_LEFT_TOP, Wall.OUTER_TOP_PLAIN, Wall.OUTER_TOP_PLAIN, Wall.OUTER_CORNER_LEFT_TOP)
+        }
+
+    }
+
+    checkAbove(line, index) {
+        var getLineAbove = line - 1
+
+        if(getLineAbove < 0) {
+            return "v"
+        }else if(this.playground[getLineAbove][index] == "1") {
+            return "w"
+        }
+        return "f"
+
+    }
+
+    checkUnder(line, index) {
+        var getLineUnder = line + 1
+
+        if(getLineUnder >= this.mazeHeight) {
+            return "v"
+        }else if(this.playground[getLineUnder][index] == "1") {
+            return "w"
+        }
+        return "f"
+    }
+
+    checkLeft(line, index) {
+        var getIndexLeft = index - 1
+
+        if(getIndexLeft < 0) {
+            return "v"
+        }else if(this.playground[line][getIndexLeft] == "1") {
+            return "w"
+        }
+        return "f"
+
+    }
+
+    checkRight(line, index, row) {
+        var getIndexRight = index + 1
+
+        if(getIndexRight >= row.length) {
+            return "v"
+        }else if(this.playground[line][getIndexRight] == "1") {
+            return "w"
+        }
+        return "f"
     }
 
     mazeBackground(canvas) {

@@ -1,4 +1,4 @@
-import {Pacman} from "./Pacman/Pacman.js";
+ import {Pacman} from "./Pacman/Pacman.js";
 
 export class Game
 {
