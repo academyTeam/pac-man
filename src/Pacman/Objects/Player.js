@@ -166,83 +166,94 @@ export class Player {
 
     checkCollision() {
 
+        let tolerance = 2
+
         let positionPlayer = {
             center: {
                 x: this.position.x - Pacman.left + this.playerWidth / 2,
                 y: this.position.y - Pacman.top + this.playerHeight / 2
             },
 
-            left: this.position.x - Pacman.left,
-            right: this.position.x - Pacman.left + this.playerWidth,
-            top: this.position.y - Pacman.top,
-            bottom: this.position.y - Pacman.top + this.playerHeight
+            left: this.position.x - Pacman.left + tolerance,
+            right: this.position.x - Pacman.left + this.playerWidth - tolerance,
+            top: this.position.y - Pacman.top + tolerance,
+            bottom: this.position.y - Pacman.top + this.playerHeight - tolerance
         }
 
-        if (this.velocity.x !== 0) {
-            Pacman.playground.forEach((row, lineIndex) => {
-                if (lineIndex * Wall.size < positionPlayer.center.y && (lineIndex + 1) * Wall.size > positionPlayer.center.y) {
+        this.context.fillStyle = '#FFFFFF'
+        let coor = {
+            x: 0,
+            y: 0
+        }
+        this.context.fillText(this.position.x + 'x' + this.position.y, 10, 10)
 
-                    row.forEach((field, fieldIndex) => {
-                        if (fieldIndex * Wall.size < positionPlayer.center.x && (fieldIndex + 1) * Wall.size > positionPlayer.center.x) {
-                            if (
-                                this.velocity.x > 0
-                                && Pacman.playground[lineIndex][fieldIndex + 1] === '1'
-                                && positionPlayer.right + this.velocity.x > (fieldIndex + 1) * Wall.size / 2
-                            ) {
-                                this.velocity.x = 0
-                            }
+        Pacman.playground.forEach((row, lineIndex) => {
+            if (lineIndex * Wall.size < positionPlayer.center.y && (lineIndex + 1) * Wall.size >= positionPlayer.center.y) {
+                row.forEach((field, fieldIndex) => {
+                    if (fieldIndex * Wall.size < positionPlayer.center.x && (fieldIndex + 1) * Wall.size >= positionPlayer.center.x) {
 
-                            if (
-                                this.velocity.x < 0
-                                && Pacman.playground[lineIndex][fieldIndex - 1] === '1'
-                                && positionPlayer.left + this.velocity.x < (fieldIndex - 1) * Wall.size + Wall.size / 2
-                            ) {
-                                this.velocity.x = 0
-                            }
+                        coor = {
+                            y: lineIndex,
+                            x: fieldIndex
                         }
-                    })
-                }
-            });
+                    }
+                })
+            }
+        });
+
+        this.context.fillText(coor.y + 'x' + coor.x, 10, 30)
+
+
+        if (this.velocity.x > 0) {
+            this.context.fillText('rechts', 10, 20)
+
+
+            this.context.fillText(Pacman.playground[coor.y][coor.x + 1], 10, 40)
+
+            if (
+                Pacman.playground[coor.y][coor.x + 1] === '1'
+                //&& positionPlayer.right + this.velocity.x > (fieldIndex + 1) * Wall.size + (Wall.size / 2)
+            ) {
+                this.velocity.x = 0
+            }
+        }
+        if (this.velocity.x < 0) {
+            this.context.fillText('links', 10, 20)
+
+            this.context.fillText(Pacman.playground[coor.y][coor.x - 1], 10, 40)
+            if (
+                Pacman.playground[coor.y][coor.x - 1] === '1'
+                //&& positionPlayer.right + this.velocity.x > (fieldIndex + 1) * Wall.size + (Wall.size / 2)
+            ) {
+                this.velocity.x = 0
+            }
         }
 
 
+        if (this.velocity.y < 0) {
+            this.context.fillText('oben', 10, 20)
+            this.context.fillText(Pacman.playground[coor.y - 1][coor.x], 10, 40)
 
-        if (this.velocity.y !== 0) {
-            Pacman.playground.forEach((row, lineIndex) => {
-                if (lineIndex * Wall.size < positionPlayer.center.y && (lineIndex + 1) * Wall.size > positionPlayer.center.y) {
-
-                    row.forEach((field, fieldIndex) => {
-                        if (fieldIndex * Wall.size < positionPlayer.center.x && (fieldIndex + 1) * Wall.size > positionPlayer.center.x) {
-                            if (
-                                this.velocity.y > 0
-                                && Pacman.playground[lineIndex - 1][fieldIndex] === '1'
-                                && positionPlayer.bottom + this.velocity.x > (lineIndex + 1) * Wall.size / 2
-                            ) {
-                                this.velocity.y = 0
-                            }
-
-                            if (
-                                this.velocity.y < 0
-                                && Pacman.playground[lineIndex - 1][fieldIndex] === '1'
-                                && positionPlayer.top + this.velocity.x < (lineIndex - 1) * Wall.size + Wall.size / 2
-                            ) {
-                                this.velocity.y = 0
-                            }
-                        }
-                    })
-                }
-            });
+            if (
+                Pacman.playground[coor.y - 1][coor.x] === '1'
+                //&& positionPlayer.right + this.velocity.x > (fieldIndex + 1) * Wall.size + (Wall.size / 2)
+            ) {
+                this.velocity.y = 0
+            }
         }
 
-        // Pacman.playground.forEach(line => {
-        //     line.forEach(field => {
-        //         // todo: find left box
-        //         // todo: get right border (position of box + wall.size / 2)
-        //         if (potentialX < positionOfBoxBorder) {
-        //             return false
-        //         }
-        //     })
-        // });
+
+        if (this.velocity.y > 0) {
+            this.context.fillText('unten', 10, 20)
+            this.context.fillText(Pacman.playground[coor.y + 1][coor.x], 10, 40)
+
+            if (
+                Pacman.playground[coor.y + 1][coor.x] === '1'
+                //&& positionPlayer.right + this.velocity.x > (fieldIndex + 1) * Wall.size + (Wall.size / 2)
+            ) {
+                this.velocity.y = 0
+            }
+        }
 
 
         return false;
