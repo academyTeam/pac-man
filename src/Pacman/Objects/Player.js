@@ -32,9 +32,6 @@ export class Player {
 
     constructor(game) {
         this.game = game
-        this.myImage = new Image();
-        this.myImage.src = "../../../sprites/Pac-Man-Original.png";
-        this.myImage.src = "../../../sprites/Pac-Man_SNES.gif";
 
         this.registerKeys()
 
@@ -127,10 +124,10 @@ export class Player {
 
         this.context.imageSmoothingEnabled = false;
 
-
         let imageData = this.imageCache[this.shift]
         if (imageData === undefined) {
-            this.context.drawImage(this.myImage, this.shift, 0, this.frameWidth, this.frameHeight,
+            const playerImage = this.game.spriteManager.getSpriteTile("../../../sprites/Pac-Man_SNES.gif")
+            this.context.drawImage(playerImage, this.shift, 0, this.frameWidth, this.frameHeight,
                 this.position.x, this.position.y, this.playerWidth, this.playerHeight);
 
             // add transparency to sprites
@@ -164,31 +161,31 @@ export class Player {
     }
 
     drawMrsPacman() {
-        shift = 0;
-        frameWidth = 16;
-        frameHeight = 16;
-        startFrame = 0;
-        totalFrames = 5;
-        typeFrame = 0;
+        this.shift = 0;
+        this.frameWidth = 16;
+        this.frameHeight = 16;
+        this.startFrame = 0;
+        this.totalFrames = 5;
+        this.typeFrame = 16;
     }
 
 
     drawMrPacman() {
         this.shift = 0;
-        frameWidth = 16;
-        frameHeight = 16;
-        startFrame = 0;
-        totalFrames = 5;
-        typeFrame = 16;
+        this.frameWidth = 16;
+        this.frameHeight = 16;
+        this.startFrame = 0;
+        this.totalFrames = 5;
+        this.typeFrame = 16;
     }
 
     drawMrsPacmanUp() {
-         shift = 0;
-         frameWidth = 16;
-         frameHeight = 16;
-         startFrame = 6;
-         totalFrames = 5;
-         typeFrame = 0;
+        this.shift = 0;
+        this.frameWidth = 16;
+        this.frameHeight = 16;
+        this.startFrame = 6;
+        this.totalFrames = 5;
+        this.typeFrame = 0;
     }
 
     registerKeys() {
@@ -242,7 +239,7 @@ export class Player {
 
     checkCollision() {
 
-        let tolerance = 4
+        let tolerance = 0
 
         let positionPlayer = {
             center: {

@@ -60,7 +60,6 @@ export class Pacman
     async animate() {
 
         let canvas = this.game.canvas
-
         let context = this.game.context
 
         Pacman.left = canvas.width / 2 - (this.mazeWidth * Wall.size / 2)
@@ -69,12 +68,11 @@ export class Pacman
         if (Pacman.top < 0) Pacman.top = 0
         if (Pacman.left < 0) Pacman.left = 0
 
-        let imageData = this.mapCache
-        if (imageData === undefined) {
+        if (this.mapCache === undefined) {
             this.mazeBackground(canvas)
 
-            await Pacman.playground.forEach((row, line) => {
-                 row.forEach((box, index) => {
+            Pacman.playground.forEach((row, line) => {
+                row.forEach((box, index) => {
                     if (box === '1') {
 
                         let wall = new Wall(this.game, {
@@ -91,7 +89,8 @@ export class Pacman
 
 
             // add transparency to sprites
-            imageData = context.getImageData(Pacman.left, Pacman.top, (Pacman.left + this.mazeWidth * Wall.size), (Pacman.top + this.mazeHeight * Wall.size));
+
+            let imageData = context.getImageData(Pacman.left, Pacman.top, (Pacman.left + this.mazeWidth * Wall.size), (Pacman.top + this.mazeHeight * Wall.size));
             // const data = imageData.data;
             //
             // for (let i = 0; i < data.length; i += 4) {
@@ -102,9 +101,12 @@ export class Pacman
             // }
             this.mapCache = imageData
         }
-        context.putImageData(imageData, Pacman.left, Pacman.top);
 
-        // this.player.draw(Pacman.left + 8, Pacman.top + 8)
+        if (this.mapCache !== undefined) {
+            context.putImageData(this.mapCache, Pacman.left, Pacman.top);
+        }
+
+        this.player.draw(Pacman.left + 8, Pacman.top + 8)
     }
 
     checkWallComponment(wall, line, index, row) {

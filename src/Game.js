@@ -1,11 +1,15 @@
  import {Pacman} from "./Pacman/Pacman.js";
+ import {SpriteManager} from "./Pacman/SpriteManager.js";
 
 export class Game
 {
     constructor(canvas, fps = 60) {
         this.canvas = canvas
         this.context = canvas.getContext('2d')
+        this.spriteManager = new SpriteManager()
 
+        this.spriteManager.getSpriteTile("../../../sprites/Pac-Man_SNES.gif")
+        this.spriteManager.getSpriteTile("../../../sprites/pacman_tiles.png")
 
         this.frameCount = 0;
         this.framesLast = 0;

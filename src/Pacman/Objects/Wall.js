@@ -36,9 +36,7 @@ export class Wall
         let positionX = this.position.left + this.position.x
         let positionY = this.position.top + this.position.y
 
-
-        var img1 = new Image()
-        img1.src="../../sprites/pacman_tiles.png"
+        let img1 = this.game.spriteManager.getSpriteTile("../../../sprites/pacman_tiles.png")
 
         context.imageSmoothingEnabled = false
         context.drawImage(img1, wallType1.x, wallType1.y, 8, 8, positionX, positionY, 8, 8)
