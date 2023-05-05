@@ -100,11 +100,11 @@ export class Pacman
             //         data[i+3] = 0;
             //     }
             // }
-            this.mapCache = imageData
+           // this.mapCache = imageData
         }
         context.putImageData(imageData, Pacman.left, Pacman.top);
 
-        // this.player.draw(Pacman.left + 8, Pacman.top + 8)
+         this.player.draw(Pacman.left + 8, Pacman.top + 8)
     }
 
     checkWallComponment(wall, line, index, row) {

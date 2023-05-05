@@ -239,29 +239,13 @@ var pacman = new Image();
 pacman.src ="../sprites/Pac-Man_SNES.gif";
 pacman.addEventListener("load", loadImage, false);
 
-var pacman2 = new Image();
-pacman2.src ="../sprites/Pac-Man_SNESMirroredHoriz.png";
-pacman2.addEventListener("load2", loadImage2, false);
-
-var pacman3 = new Image();
-pacman3.src ="../sprites/Pac-Man_SNESMirroredVertik.png";
-pacman3.addEventListener("load3", loadImage3, false);
 
 function loadImage(e) {
 registerKeys();
   animate();
 
 }
-function loadImage2(e) {
-registerKeys();
-  animate();
 
-}
-function loadImage3(e) {
-registerKeys();
-  animate();
-
-}
 
 var shift = 0;
 var frameWidth =16
@@ -282,11 +266,9 @@ function animate() {
 
 
   context.clearRect(120, 25, 300, 300);
-  context.drawImage(pacman, column+frameWidth, row+frameHeight, frameWidth, frameHeight,
-                                             100, 60, frameWidth, frameHeight);
-                                              column += frameWidth + 0;
 
-
+  //context.fillStyle = '#cccccc'
+  //context.fillRect(10, 10, 10, 10);
 
   switch(direction){
 
@@ -311,32 +293,6 @@ function animate() {
 
     break
   case "Down":
- /* if (currentFrame == totalFrames) {
-                column = 16;
-                row = 16;
-                currentFrame = 0;
-            }
-
-
-context.drawImage(pacman3, column+frameWidth, row+frameHeight, frameWidth, frameHeight,
-                                                                    100, 60, frameWidth, frameHeight);
-                                                                    column += frameWidth + 0;
-                                                                    */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -344,17 +300,15 @@ context.drawImage(pacman3, column+frameWidth, row+frameHeight, frameWidth, frame
     break
   case "Right":
 
-   if (currentFrame == totalFrames) {
-              column = 0;
-              row = 0;
-              currentFrame = 0;
-          }
+   scale(pacman)
 
     break
 
   }
 
-
+context.drawImage(pacman, column+frameWidth, row+frameHeight, frameWidth, frameHeight,
+                                             100, 60, frameWidth, frameHeight);
+                                              column += frameWidth + 0;
 
 
 
@@ -381,6 +335,7 @@ console.log(direction);
                  case 'ArrowUp':
 
                    direction = "Up"
+                   //requestAnimationFrame(animate);
 
 
 
@@ -389,6 +344,7 @@ console.log(direction);
                  case 'ArrowLeft':
 
                  direction = "Left"
+                 //requestAnimationFrame(animate);
 
 
 
@@ -397,13 +353,14 @@ console.log(direction);
                  case 'ArrowDown':
 
                  direction = "Down"
+                // requestAnimationFrame(animate);
 
                      break
                  case 'd':
                  case 'ArrowRight':
 
                  direction = "Right"
-
+                //requestAnimationFrame(animate);
                      break
              }
          });
@@ -431,6 +388,26 @@ console.log(direction);
              }
          });
   }
+  function scale(pacman){
+  const ctx = document.getElementById("pacman").getContext("2d");
+
+    //ctx.restore();
+    ctx.save();
+    ctx.translate(108, 68); // translate to rectangle center
+    //var x = x + 0.5 * width
+    //var y = y + 0.5 * height
+    ctx.scale(-1,1)// rotate
+    ctx.drawImage(pacman, column+frameWidth, row+frameHeight, frameWidth, frameHeight,
+                                                     -50, -30, frameWidth, frameHeight);
+                                                      column += frameWidth + 0;
+
+    ctx.translate(-108, -68); // translate back
+    ctx.restore();
+
+
+
+  }
+
 
 
 
