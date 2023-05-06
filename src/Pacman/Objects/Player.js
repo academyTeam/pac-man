@@ -15,8 +15,6 @@ export class Player {
     speed = 4
     playerWidth = 32
     playerHeight = 32
-    canvas = document.getElementById('player')
-    context = this.canvas.getContext("2d")
     imageCache = {}
 
 
@@ -32,6 +30,8 @@ export class Player {
 
     constructor(game) {
         this.game = game
+        this.context = this.game.canvasPlayer.getContext("2d")
+        this.contextGame = this.game.canvas.getContext('2d')
 
         this.registerKeys()
 
@@ -39,8 +39,6 @@ export class Player {
     }
 
     draw (startPositionX, startPositionY) {
-        this.canvas.height = innerHeight
-        this.canvas.width = innerWidth
 
         if (this.position.x === -99) {
             this.position.x = startPositionX
@@ -70,55 +68,55 @@ export class Player {
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
 
-        this.context.strokeStyle = '#CCCCCC'
-        this.context.FillStyle = '#FFFFFF'
+        this.contextGame.strokeStyle = '#CCCCCC'
+        this.contextGame.FillStyle = '#FFFFFF'
 
         if (this.velocity.y < 0) {
-            this.context.fillStyle = '#FFFFFF'
-            this.context.fillText('W', 200, 25)
+            this.contextGame.fillStyle = '#FFFFFF'
+            this.contextGame.fillText('W', 200, 25)
         } else {
-            this.context.fillStyle = '#999999'
+            this.contextGame.fillStyle = '#999999'
 
             if (this.lastKey === 'w') {
-                this.context.fillStyle = '#FF0000'
+                this.contextGame.fillStyle = '#FF0000'
             }
 
-            this.context.fillText('W', 200, 25)
+            this.contextGame.fillText('W', 200, 25)
         }
 
         if (this.velocity.x < 0) {
-            this.context.fillStyle = '#FFFFFF'
-            this.context.fillText('A', 190, 35)
+            this.contextGame.fillStyle = '#FFFFFF'
+            this.contextGame.fillText('A', 190, 35)
         } else {
-            this.context.fillStyle = '#999999'
+            this.contextGame.fillStyle = '#999999'
 
             if (this.lastKey === 'a') {
-                this.context.fillStyle = '#FF0000'
+                this.contextGame.fillStyle = '#FF0000'
             }
 
-            this.context.fillText('A', 190, 35)
+            this.contextGame.fillText('A', 190, 35)
         }
 
         if (this.velocity.x > 0) {
-            this.context.fillStyle = '#FFFFFF'
-            this.context.fillText('D', 210, 35)
+            this.contextGame.fillStyle = '#FFFFFF'
+            this.contextGame.fillText('D', 210, 35)
         } else {
-            this.context.fillStyle = '#999999'
+            this.contextGame.fillStyle = '#999999'
             if (this.lastKey === 'd') {
-                this.context.fillStyle = '#FF0000'
+                this.contextGame.fillStyle = '#FF0000'
             }
-            this.context.fillText('D', 210, 35)
+            this.contextGame.fillText('D', 210, 35)
         }
 
         if (this.velocity.y > 0) {
-            this.context.fillStyle = '#FFFFFF'
-            this.context.fillText('S', 200, 45)
+            this.contextGame.fillStyle = '#FFFFFF'
+            this.contextGame.fillText('S', 200, 45)
         } else {
-            this.context.fillStyle = '#999999'
+            this.contextGame.fillStyle = '#999999'
             if (this.lastKey === 's') {
-                this.context.fillStyle = '#FF0000'
+                this.contextGame.fillStyle = '#FF0000'
             }
-            this.context.fillText('S', 200, 45)
+            this.contextGame.fillText('S', 200, 45)
         }
 
 
@@ -239,26 +237,26 @@ export class Player {
 
     checkCollision() {
 
-        let tolerance = 2
+        let tolerance = -4
 
         let positionPlayer = {
             center: {
-                x: this.position.x - Pacman.left + this.playerWidth / 2,
-                y: this.position.y - Pacman.top + this.playerHeight / 2
+                x: this.position.x + this.playerWidth / 2,
+                y: this.position.y + this.playerHeight / 2
             },
 
-            left: this.position.x - Pacman.left + tolerance,
-            right: this.position.x - Pacman.left + this.playerWidth - tolerance,
-            top: this.position.y - Pacman.top + tolerance,
-            bottom: this.position.y - Pacman.top + this.playerHeight - tolerance
+            left: this.position.x - tolerance,
+            right: this.position.x + this.playerWidth + tolerance,
+            top: this.position.y - tolerance,
+            bottom: this.position.y + this.playerHeight + tolerance
         }
 
-        this.context.fillStyle = '#FFFFFF'
+        this.contextGame.fillStyle = '#FFFFFF'
         let coor = {
             x: 0,
             y: 0
         }
-        this.context.fillText(positionPlayer.top + 'x' + positionPlayer.left, 10, 10)
+        this.contextGame.fillText(positionPlayer.top + 'x' + positionPlayer.left, 10, 10)
 
         Pacman.playground.forEach((row, lineIndex) => {
             if (lineIndex * Wall.size < positionPlayer.center.y && (lineIndex + 1) * Wall.size >= positionPlayer.center.y) {
@@ -274,16 +272,14 @@ export class Player {
             }
         });
 
-        this.context.fillText(coor.y + 'x' + coor.x, 10, 30)
+        this.contextGame.fillText(coor.y + 'x' + coor.x, 10, 30)
 
 
         if (this.velocity.x > 0) {
-            this.context.fillText('rechts', 10, 20)
 
+            this.contextGame.fillText(Pacman.playground[coor.y][coor.x + 1], 10, 40)
 
-            this.context.fillText(Pacman.playground[coor.y][coor.x + 1], 10, 40)
-
-            this.context.fillText(positionPlayer.right + this.velocity.x + '<' + (((coor.x + 1) * Wall.size) + (Wall.size / 2)), 100, 40)
+            this.contextGame.fillText(positionPlayer.right + this.velocity.x + '<' + (((coor.x + 1) * Wall.size) + (Wall.size / 2)), 100, 40)
             if (
                 Pacman.playground[coor.y][coor.x + 1] === '1'
                 && positionPlayer.right + this.velocity.x >= (coor.x + 1) * Wall.size + (Wall.size / 2)
@@ -292,10 +288,8 @@ export class Player {
             }
         }
         if (this.velocity.x < 0) {
-            this.context.fillText('links', 10, 20)
-
-            this.context.fillText(Pacman.playground[coor.y][coor.x - 1], 10, 40)
-            this.context.fillText(positionPlayer.left + this.velocity.x + '<' + (((coor.x - 1) * Wall.size) + (Wall.size / 2)), 100, 40)
+            this.contextGame.fillText(Pacman.playground[coor.y][coor.x - 1], 10, 40)
+            this.contextGame.fillText(positionPlayer.left + this.velocity.x + '<' + (((coor.x - 1) * Wall.size) + (Wall.size / 2)), 100, 40)
             if (
                 Pacman.playground[coor.y][coor.x - 1] === '1'
                 && positionPlayer.left + this.velocity.x <= coor.x * Wall.size - (Wall.size / 2)
@@ -306,8 +300,7 @@ export class Player {
 
 
         if (this.velocity.y < 0) {
-            this.context.fillText('oben', 10, 20)
-            this.context.fillText(Pacman.playground[coor.y - 1][coor.x], 10, 40)
+            this.contextGame.fillText(Pacman.playground[coor.y - 1][coor.x], 10, 40)
 
             if (
                 Pacman.playground[coor.y - 1][coor.x] === '1'
@@ -319,8 +312,7 @@ export class Player {
 
 
         if (this.velocity.y > 0) {
-            this.context.fillText('unten', 10, 20)
-            this.context.fillText(Pacman.playground[coor.y + 1][coor.x], 10, 40)
+            this.contextGame.fillText(Pacman.playground[coor.y + 1][coor.x], 10, 40)
 
             if (
                 Pacman.playground[coor.y + 1][coor.x] === '1'

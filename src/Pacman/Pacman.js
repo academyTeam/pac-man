@@ -77,6 +77,14 @@ export class Pacman
         this.game.canvasMap.width = this.mazeWidth * Wall.size
         this.game.canvasMap.height = this.mazeHeight * Wall.size
 
+        this.game.canvasPlayer.style.top = Pacman.top + 'px'
+        this.game.canvasPlayer.style.left = Pacman.left + 'px'
+        this.game.canvasPlayer.style.position = 'absolute'
+
+        this.game.canvasPlayer.width = this.mazeWidth * Wall.size
+        this.game.canvasPlayer.height = this.mazeHeight * Wall.size
+
+
         let contextMap = this.game.canvasMap.getContext('2d')
 
         if (this.backgroundCache === undefined) {
@@ -125,7 +133,7 @@ export class Pacman
             contextMap.putImageData(this.mapCache, 0, 0);
         }
 
-        this.player.draw(Pacman.left + 8, Pacman.top + 8)
+        this.player.draw(8, 8)
     }
 
     checkWallComponment(wall, line, index, row) {

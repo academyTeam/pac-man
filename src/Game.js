@@ -8,7 +8,7 @@ export class Game
         this.context = canvas.getContext('2d')
 
         this.canvasMap = document.getElementById('map')
-        this.contextMap = this.canvasMap
+        this.canvasPlayer = document.getElementById('player')
 
         this.spriteManager = new SpriteManager()
 
