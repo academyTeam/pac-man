@@ -239,7 +239,7 @@ export class Player {
 
     checkCollision() {
 
-        let tolerance = 0
+        let tolerance = 2
 
         let positionPlayer = {
             center: {

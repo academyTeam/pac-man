@@ -7,6 +7,7 @@ export class Pacman
 
     static top = 0
     static left = 0
+    backgroundCache = undefined
     mapCache = undefined
 
     static playground = [
@@ -68,8 +69,27 @@ export class Pacman
         if (Pacman.top < 0) Pacman.top = 0
         if (Pacman.left < 0) Pacman.left = 0
 
-        if (this.mapCache === undefined) {
+
+        this.game.canvasMap.style.top = Pacman.top + 'px'
+        this.game.canvasMap.style.left = Pacman.left + 'px'
+        this.game.canvasMap.style.position = 'absolute'
+
+        this.game.canvasMap.width = this.mazeWidth * Wall.size
+        this.game.canvasMap.height = this.mazeHeight * Wall.size
+
+        let contextMap = this.game.canvasMap.getContext('2d')
+
+        if (this.backgroundCache === undefined) {
             this.mazeBackground(canvas)
+            this.backgroundCache = context.getImageData(Pacman.left, Pacman.top, (Pacman.left + this.mazeWidth * Wall.size), (Pacman.top + this.mazeHeight * Wall.size))
+        }
+
+        if (this.backgroundCache !== undefined) {
+            context.putImageData(this.backgroundCache, Pacman.left, Pacman.top);
+        }
+
+        if (this.mapCache === undefined) {
+
 
             Pacman.playground.forEach((row, line) => {
                 row.forEach((box, index) => {
@@ -77,9 +97,7 @@ export class Pacman
 
                         let wall = new Wall(this.game, {
                             x: index * Wall.size,
-                            y: line * Wall.size,
-                            left: Pacman.left,
-                            top: Pacman.top
+                            y: line * Wall.size
                         })
 
                         this.checkWallComponment(wall, line, index, row)
@@ -90,20 +108,21 @@ export class Pacman
 
             // add transparency to sprites
 
-            let imageData = context.getImageData(Pacman.left, Pacman.top, (Pacman.left + this.mazeWidth * Wall.size), (Pacman.top + this.mazeHeight * Wall.size));
-            // const data = imageData.data;
-            //
-            // for (let i = 0; i < data.length; i += 4) {
-            //     // if the pixel matches our transparent color, set alpha to 0
-            //     if(data[i] === 128 && data[i + 1] === 0 && data[i + 2] === 128) {
-            //         data[i+3] = 0;
-            //     }
-            // }
+            let imageData = contextMap.getImageData(0, 0, (Pacman.left + this.mazeWidth * Wall.size), (Pacman.top + this.mazeHeight * Wall.size));
+            const data = imageData.data;
+
+            for (let i = 0; i < data.length; i += 4) {
+                 // if the pixel matches our transparent color, set alpha to 0
+                 if(data[i] === 0 && data[i + 1] === 0 && data[i + 2] === 0) {
+                     data[i+3] = 0;
+                 }
+            }
             this.mapCache = imageData
         }
 
         if (this.mapCache !== undefined) {
-            context.putImageData(this.mapCache, Pacman.left, Pacman.top);
+
+            contextMap.putImageData(this.mapCache, 0, 0);
         }
 
         this.player.draw(Pacman.left + 8, Pacman.top + 8)
@@ -229,12 +248,9 @@ export class Pacman
         return "f"
     }
 
-    mazeBackground(canvas) {
+    mazeBackground() {
 
         let context = this.game.context
-        let color = '#999999'
-
-
 
         for (let line = 0; line < this.mazeHeight; line++) {
             for (let row = 0; row < this.mazeWidth; row++) {

@@ -6,6 +6,10 @@ export class Game
     constructor(canvas, fps = 60) {
         this.canvas = canvas
         this.context = canvas.getContext('2d')
+
+        this.canvasMap = document.getElementById('map')
+        this.contextMap = this.canvasMap
+
         this.spriteManager = new SpriteManager()
 
         this.spriteManager.getSpriteTile("../../../sprites/Pac-Man_SNES.gif")
@@ -13,7 +17,6 @@ export class Game
 
         this.frameCount = 0;
         this.framesLast = 0;
-
 
         this.state = {
             stop: false,
