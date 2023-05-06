@@ -62,7 +62,6 @@ export class Player {
                 break
         }
 
-
         this.checkCollision()
 
         this.position.x += this.velocity.x
@@ -272,7 +271,11 @@ export class Player {
             }
         });
 
-        this.contextGame.fillText(coor.y + 'x' + coor.x, 10, 30)
+        if (!this.game.game.playerWasHere.includes(coor.x + 'x' + coor.y)) {
+            this.game.game.playerWasHere.push(coor.x + 'x' + coor.y)
+        }
+
+        this.contextGame.fillText(coor.x + 'x' + coor.y, 10, 30)
 
 
         if (this.velocity.x > 0) {

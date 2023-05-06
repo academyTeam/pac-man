@@ -1,5 +1,6 @@
 import {Wall} from "./Objects/Wall.js";
 import {Player} from "./Objects/Player.js";
+import {Dot} from "./Objects/Dot.js";
 
 export class Pacman
 {
@@ -9,6 +10,7 @@ export class Pacman
     static left = 0
     backgroundCache = undefined
     mapCache = undefined
+    playerWasHere = []
 
     static playground = [
             ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
@@ -132,6 +134,20 @@ export class Pacman
 
             contextMap.putImageData(this.mapCache, 0, 0);
         }
+
+        Pacman.playground.forEach((row, line) => {
+            row.forEach((box, index) => {
+                if (box === '.' && !this.playerWasHere.includes(index + 'x' + line)) {
+
+                    let dot = new Dot(this.game, {
+                        x: index * Wall.size + (Wall.size /2) - 1,
+                        y: line * Wall.size + (Wall.size /2) - 1
+                    })
+
+                    dot.draw()
+                }
+            })
+        })
 
         this.player.draw(8, 8)
     }
